@@ -1,20 +1,21 @@
-Tag = Struct.new(:type, :id, :classes, :name, :src, :title)
-
-def parse_tag(html)
-  tag = Tag.new
-  tag.type = (/\w+/.match html).to_s
-  tag.classes = (/((?<=class=('|"))|(?<=class\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s.split(' ')
-  tag.id = (/((?<=id=('|"))|(?<=id\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s
-  tag.name = (/(?<=name=('|"))((\w+(-|_)?)+ ?)+/.match html).to_s
-  tag.src = (/((?<=src=('|"))|(?<=src\s=\s('|")))[http:\/\/]*(w{3}\.)?\w+\.\w{2,3}/.match html).to_s
-  tag.title = (/((?<=title=('|"))|(?<=title\s=\s('|")))(\w+ ?)+/.match html).to_s
-
-  tag
-end
 
 RSpec.describe 'parsing a single HTML tag' do
   let(:paragraph) { "<p class='foo bar' id='baz' name='fozzie'>" }
   let(:div)       { "<div id = 'bim'>" }
+
+  Tag = Struct.new(:type, :id, :classes, :name, :src, :title)
+
+  def parse_tag(html)
+    tag = Tag.new
+    tag.type = (/\w+/.match html).to_s
+    tag.classes = (/((?<=class=('|"))|(?<=class\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s.split(' ')
+    tag.id = (/((?<=id=('|"))|(?<=id\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s
+    tag.name = (/(?<=name=('|"))((\w+(-|_)?)+ ?)+/.match html).to_s
+    tag.src = (/((?<=src=('|"))|(?<=src\s=\s('|")))[http:\/\/]*(w{3}\.)?\w+\.\w{2,3}/.match html).to_s
+    tag.title = (/((?<=title=('|"))|(?<=title\s=\s('|")))(\w+ ?)+/.match html).to_s
+
+    tag
+  end
 
   describe '#parse_tag' do
     context 'tags with classes, id, or a name' do
