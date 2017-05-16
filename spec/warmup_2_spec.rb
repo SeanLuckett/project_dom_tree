@@ -14,10 +14,10 @@ class DomParser
   end
 
   def to_html
-    html_string = ''
-
-    add_tags_to_html(@dom_tree, html_string)
+    add_tags_to_html(@dom_tree, '')
   end
+
+  private
 
   def add_tags_to_html(tag, html_string)
     if tag.type != 'text'
@@ -35,18 +35,6 @@ class DomParser
     html_string += "</#{tag.type}>\n"
     html_string
   end
-
-
-  # def add_children_to_stack(tag, stack)
-  #   stack << tag
-  #   return if tag.children.nil?
-  #
-  #   tag.children.each do |c|
-  #     add_children_to_stack(c, stack)
-  #   end
-  # end
-
-  private
 
   def create_dom_tree
     dom_elements = @html.split("\n")
