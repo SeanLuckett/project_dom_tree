@@ -13,10 +13,38 @@ class DomParser
     @dom_tree = create_dom_tree
   end
 
-  def print_html
-    #why would I ever want to go through the dom tree to reproduce html I already stored?
-    @html
+  def to_html
+    html_string = ''
+
+    add_tags_to_html(@dom_tree, html_string)
   end
+
+  def add_tags_to_html(tag, html_string)
+    if tag.type != 'text'
+      html_string += "<#{tag.type}>\n"
+    else
+      html_string += "#{tag.content}\n"
+    end
+
+    return html_string if tag.children.nil?
+
+    tag.children.each do |child|
+      html_string = add_tags_to_html(child, html_string)
+    end
+
+    html_string += "</#{tag.type}>\n"
+    html_string
+  end
+
+
+  # def add_children_to_stack(tag, stack)
+  #   stack << tag
+  #   return if tag.children.nil?
+  #
+  #   tag.children.each do |c|
+  #     add_children_to_stack(c, stack)
+  #   end
+  # end
 
   private
 
@@ -74,7 +102,8 @@ Tag = Struct.new(:type, :id, :classes, :name, :src, :title, :children)
 
 Text = Struct.new(:type, :content, :children)
 
-class NoRootTagError < StandardError; end
+class NoRootTagError < StandardError;
+end
 
 RSpec.describe DomParser do
   context 'html has no root node' do
@@ -176,9 +205,17 @@ RSpec.describe DomParser do
           <p>
             p text
           </p>
+          <div>
+            more div text
+          </div>
+          div text after
         </div>
       EOS
     end
+
+    let(:expected_output) {
+      "<div>\n  div text before\n<p>\n    p text\n</p>\n<div>\n    more div text\n</div>\n  div text after\n</div>\n"
+    }
 
     let(:parser) { DomParser.new(html) }
 
@@ -187,7 +224,7 @@ RSpec.describe DomParser do
     end
 
     it 'reproduces the html it parsed' do
-      expect(parser.print_html).to eq html
+      expect(parser.to_html).to eq expected_output
     end
   end
 end
