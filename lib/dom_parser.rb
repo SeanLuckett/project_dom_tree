@@ -26,9 +26,11 @@ class DomParser
         html_str.sub!(/^ *<\/\w+> */, '')
         tag_stack.pop
       else
-        tag_text = html_str.match(/^[\w !.,'?]*/).to_s
+        text_tag_rgex = /^[\w !.,')(?]*/
+
+        tag_text = html_str.match(text_tag_rgex).to_s
         parent.children << parse_text_tag(tag_text)
-        html_str.sub!(/^[\w !.,']*/, '')
+        html_str.sub!(text_tag_rgex, '')
       end
     end
   end

@@ -44,7 +44,7 @@ RSpec.describe DomParser do
       let(:html) do
         <<~EOS
           <div>
-            I'm an inner div!!! I might just <em>emphasize</em> some text.
+            I'm an inner div?!! (I might just) <em>emphasize</em> some text.
           </div>
         EOS
       end
