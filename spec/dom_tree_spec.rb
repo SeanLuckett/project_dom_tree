@@ -13,6 +13,21 @@ RSpec.describe DomTree do
     expect(tree.root_node.children.empty?).to be_truthy
   end
 
+  describe '#all_nodes' do
+    it 'is an array' do
+      expect(tree.all_nodes).to be_a_kind_of Array
+    end
+
+    it 'puts all tree nodes into that array' do
+      html_tag = TagElement.new('html')
+      text_tag = TextElement.new('text', 'some text', [])
+      html_tag.children = [text_tag]
+      tree.root_node.children << html_tag
+
+      expect(tree.all_nodes.size).to eq 3
+    end
+  end
+
   describe 'rebuilding the dom' do
     let(:html) do
       <<~EOS
