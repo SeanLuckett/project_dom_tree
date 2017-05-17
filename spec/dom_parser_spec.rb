@@ -87,4 +87,14 @@ RSpec.describe DomParser do
       end
     end
   end
+
+  describe 'rebuilding the DOM' do
+    it 'lets the domtree do it' do
+      parser = DomParser.new
+      allow(parser).to receive :write_to_file
+
+      expect_any_instance_of(DomTree).to receive :to_html
+      parser.print_dom
+    end
+  end
 end

@@ -26,7 +26,7 @@ class DomParser
         html_str.sub!(/^ *<\/\w+> */, '')
         tag_stack.pop
       else
-        text_tag_rgex = /^[\w !.,')(?]*/
+        text_tag_rgex = /^[\w !.,')(?:]*/
 
         tag_text = html_str.match(text_tag_rgex).to_s
         parent.children << parse_text_tag(tag_text)
@@ -35,7 +35,17 @@ class DomParser
     end
   end
 
+  def print_dom
+    write_to_file @dom_tree.to_html
+  end
+
   private
+
+  def write_to_file(html, file_name = 'rebuilt_dom.html')
+    File.open(file_name, 'w') do |f|
+      f.write html
+    end
+  end
 
   def parse_tag(html)
     tag = TagElement.new
@@ -51,6 +61,7 @@ class DomParser
     tag = TextElement.new
     tag.type = 'text'
     tag.content = text
+    tag.children = []
 
     tag
   end
@@ -61,4 +72,4 @@ class DomParser
 end
 
 TagElement = Struct.new(:type, :id, :classes, :children)
-TextElement = Struct.new(:type, :content)
+TextElement = Struct.new(:type, :content, :children)
