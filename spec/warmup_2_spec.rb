@@ -1,4 +1,4 @@
-class DomParser
+class TestDomParser
   attr_reader :dom_tree
 
   def initialize(html)
@@ -93,11 +93,11 @@ Text = Struct.new(:type, :content, :children)
 class NoRootTagError < StandardError;
 end
 
-RSpec.describe DomParser do
+RSpec.describe TestDomParser do
   context 'html has no root node' do
     it 'raises and error' do
       html = 'just some text'
-      expect { DomParser.new(html) }.to raise_error NoRootTagError
+      expect { TestDomParser.new(html) }.to raise_error NoRootTagError
     end
   end
 
@@ -110,7 +110,7 @@ RSpec.describe DomParser do
       EOS
     end
 
-    let(:parser) { DomParser.new(html) }
+    let(:parser) { TestDomParser.new(html) }
 
     before do
       parser.parse
@@ -139,7 +139,7 @@ RSpec.describe DomParser do
       EOS
     end
 
-    let(:parser) { DomParser.new(html) }
+    let(:parser) { TestDomParser.new(html) }
 
     before do
       parser.parse
@@ -173,7 +173,7 @@ RSpec.describe DomParser do
       EOS
     end
 
-    let(:parser) { DomParser.new(html) }
+    let(:parser) { TestDomParser.new(html) }
 
     before do
       parser.parse
@@ -205,7 +205,7 @@ RSpec.describe DomParser do
       "<div>\n  div text before\n<p>\n    p text\n</p>\n<div>\n    more div text\n</div>\n  div text after\n</div>\n"
     }
 
-    let(:parser) { DomParser.new(html) }
+    let(:parser) { TestDomParser.new(html) }
 
     before do
       parser.parse
