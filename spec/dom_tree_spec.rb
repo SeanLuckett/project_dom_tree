@@ -15,7 +15,7 @@ RSpec.describe DomTree do
 
   describe '#all_nodes' do
     it 'is an array' do
-      expect(tree.all_nodes).to be_a_kind_of Array
+      expect(tree.to_a).to be_a_kind_of Array
     end
 
     it 'puts all tree nodes into that array' do
@@ -24,7 +24,7 @@ RSpec.describe DomTree do
       html_tag.children = [text_tag]
       tree.root_node.children << html_tag
 
-      expect(tree.all_nodes.size).to eq 3
+      expect(tree.to_a.size).to eq 3
     end
   end
 

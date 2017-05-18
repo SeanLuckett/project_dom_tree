@@ -7,7 +7,7 @@ class DomTree
     @root_node = TagElement.new('document')
   end
 
-  def all_nodes
+  def to_a
     add_tags_to_array(@root_node, [])
   end
 
