@@ -1,9 +1,9 @@
+require_relative './tag_element'
 class DomTree
   attr_reader :root_node
 
   def initialize
     @root_node = TagElement.new('document')
-    @root_node.children = []
   end
 
   def to_html

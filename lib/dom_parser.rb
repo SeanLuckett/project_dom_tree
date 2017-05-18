@@ -48,13 +48,11 @@ class DomParser
   end
 
   def parse_tag(html)
-    tag = TagElement.new
-    tag.type = (/\w+/.match html).to_s
-    tag.classes = (/((?<=class=('|"))|(?<=class\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s.split(' ')
-    tag.id = (/((?<=id=('|"))|(?<=id\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s
-    tag.children = []
+    type = (/\w+/.match html).to_s
+    classes = (/((?<=class=('|"))|(?<=class\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s.split(' ')
+    id = (/((?<=id=('|"))|(?<=id\s=\s('|")))((\w+(-|_)?)+ ?)+/.match html).to_s
 
-    tag
+    TagElement.new(type, id, classes)
   end
 
   def parse_text_tag(text)
@@ -71,5 +69,4 @@ class DomParser
   end
 end
 
-TagElement = Struct.new(:type, :id, :classes, :children)
 TextElement = Struct.new(:type, :content, :children)
