@@ -3,7 +3,7 @@ require_relative './base_tag'
 class TagElement < BaseTag
   attr_reader :id, :classes, :children
 
-  def initialize(type, id = nil, classes = [])
+  def initialize(type, id = '', classes = [])
     @type = super(type)
     @id = id
     @classes = classes
@@ -32,7 +32,7 @@ class TagElement < BaseTag
 
   def build_open_tag
     open_tag = "<#{type}"
-    open_tag += " id=\"#{id}\"" unless id.nil?
+    open_tag += " id=\"#{id}\"" unless id.empty?
     open_tag += " class=\"#{classes.join(' ')}\"" unless classes.empty?
     open_tag += ">\n"
     open_tag

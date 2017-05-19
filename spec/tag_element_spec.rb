@@ -5,7 +5,7 @@ RSpec.describe TagElement do
 
   describe 'attributes' do
     specify { expect(tag).to have_attributes type: 'div' }
-    specify { expect(tag).to have_attributes id: nil }
+    specify { expect(tag).to have_attributes id: '' }
     specify { expect(tag).to have_attributes classes: [] }
     specify { expect(tag).to have_attributes children: [] }
   end
