@@ -22,7 +22,7 @@ class DomTree
   def add_tags_to_array(tag, collection)
     collection << tag
 
-    return collection if tag.children.empty?
+    return collection unless tag.children?
 
     tag.children.each do |child|
       add_tags_to_array(child, collection)

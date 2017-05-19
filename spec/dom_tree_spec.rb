@@ -20,8 +20,8 @@ RSpec.describe DomTree do
 
     it 'puts all tree nodes into that array' do
       html_tag = TagElement.new('html')
-      text_tag = TextElement.new('text', 'some text', [])
-      html_tag.children = [text_tag]
+      text_tag = TextElement.new('some text')
+      html_tag.children << text_tag
       tree.root_node.children << html_tag
 
       expect(tree.to_a.size).to eq 3
