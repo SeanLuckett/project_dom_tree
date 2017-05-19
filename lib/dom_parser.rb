@@ -1,4 +1,5 @@
 require_relative './dom_tree'
+require_relative './text_element'
 
 class DomParser
   attr_reader :dom_tree
@@ -29,7 +30,7 @@ class DomParser
         text_tag_rgex = /^[\w !.,')(?:]*/
 
         tag_text = html_str.match(text_tag_rgex).to_s
-        parent.children << parse_text_tag(tag_text)
+        parent.children << TextElement.new(tag_text)
         html_str.sub!(text_tag_rgex, '')
       end
     end
@@ -55,18 +56,7 @@ class DomParser
     TagElement.new(type, id, classes)
   end
 
-  def parse_text_tag(text)
-    tag = TextElement.new
-    tag.type = 'text'
-    tag.content = text
-    tag.children = []
-
-    tag
-  end
-
   def preprocess(html)
     html.gsub("\n", '').sub(/<!doctype ?\w+>/, '').squeeze(' ')
   end
 end
-
-TextElement = Struct.new(:type, :content, :children)

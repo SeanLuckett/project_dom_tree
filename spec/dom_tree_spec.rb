@@ -37,7 +37,7 @@ RSpec.describe DomTree do
     end
 
     let(:expected_output) {
-      "<!doctype html>\n<html>\n<head>\n<title>\nThis is a test page \n</title>\n</head>\n<body>\n<div class=\"top-div\">\nI'm an outer div!!! \n<div id=\"inner-div\">\nI'm an inner div!!! I might just \n<em>\nemphasize\n</em>\nsome text. \n</div>\nI am EVEN MORE TEXT for the SAME div!!! \n</div>\n</body>\n</html>\n"
+      "<!doctype html>\n<html>\n<head>\n<title>\nThis is a test page\n</title>\n</head>\n<body>\n<div class=\"top-div\">\nI'm an outer div!!!\n<div id=\"inner-div\">\nI'm an inner div!!! I might just\n<em>\nemphasize\n</em>\nsome text.\n</div>\nI am EVEN MORE TEXT for the SAME div!!!\n</div>\n</body>\n</html>\n"
     }
 
     let(:parser) { DomParser.new }

@@ -1,4 +1,5 @@
 require_relative './tag_element'
+
 class DomTree
   attr_reader :root_node
 
@@ -21,7 +22,7 @@ class DomTree
                      "#{tag.content}\n"
                    end
 
-    return html_string if tag.children.empty?
+    return html_string unless tag.children?
 
     tag.children.each do |child|
       html_string = add_tags_to_html(child, html_string)
