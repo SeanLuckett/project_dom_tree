@@ -1,5 +1,6 @@
 require_relative './dom_tree'
 require_relative './text_element'
+require_relative './tag_element'
 
 class DomParser
   attr_reader :dom_tree
