@@ -7,27 +7,9 @@ class DomTree
     @root_node = TagElement.new('document')
   end
 
-  def to_a
-    add_tags_to_array(@root_node, [])
-  end
-
   def to_html
     html_string = "<!doctype html>\n"
     html_string += @root_node.children.first.to_html
     html_string
-  end
-
-  private
-
-  def add_tags_to_array(tag, collection)
-    collection << tag
-
-    return collection unless tag.children?
-
-    tag.children.each do |child|
-      add_tags_to_array(child, collection)
-    end
-
-    collection
   end
 end
