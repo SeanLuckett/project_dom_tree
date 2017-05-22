@@ -1,62 +1,4 @@
-require_relative '../lib/tag_element'
-require_relative '../lib/text_element'
-require_relative '../lib/dom_tree'
-
-class TreeSearcher
-  def initialize(tree)
-    @tree = tree
-  end
-
-  def search_ancestors(node, type, term)
-  end
-
-  def search_by(type, term)
-    case type
-      when :class
-        class_search(@tree.root_node, term, [])
-      when :id
-        id_search(@tree.root_node, term, [])
-    end
-  end
-
-  def search_children(parent_node, type, term)
-    parent_node.children.each do |child|
-      case type
-        when :class
-          class_search(child, term, [])
-        when :id
-          id_search(child, term, [])
-      end
-    end
-  end
-
-  private
-
-  def class_search(node, search_term, results)
-    if node.children?
-      node.children.each do |child|
-        results = class_search(child, search_term, results)
-      end
-    end
-
-    if node.classes.find { |c| c.match /#{search_term}/ }
-      results << node
-    end
-
-    results
-  end
-
-  def id_search(node, search_term, results)
-    if node.children?
-      node.children.each do |child|
-        results = id_search(child, search_term, results)
-      end
-    end
-
-    results << node if node.id =~ /#{search_term}/
-    results
-  end
-end
+require_relative '../lib/tree_searcher'
 
 RSpec.describe TreeSearcher do
   let(:tree) { DomTree.new }
@@ -117,7 +59,7 @@ RSpec.describe TreeSearcher do
     context 'when searching by class' do
       it 'returns descendents whose class matches' do
         parent_div = TagElement.new('div', '', %w(text-center float-right))
-        child_div1 = TagElement.new('div', '', %w(text-center float-right))
+        child_div1 = TagElement.new('div', '', %w(main-nav float-right))
         child_div2 = TagElement.new('div')
 
         child_div1.children << child_div2
@@ -130,14 +72,17 @@ RSpec.describe TreeSearcher do
     end
 
     context 'when searching by id' do
-      xit 'returns descendents whose id matches' do
+      it 'returns descendents whose id matches' do
         parent_div = TagElement.new('div', 'main-nav')
-        child_div = TagElement.new('div', 'sub-nav')
-        parent_div.children << child_div
+        child_div1 = TagElement.new('div', 'sub-nav')
+        child_div2 = TagElement.new('div')
+
+        child_div1.children << child_div2
+        parent_div.children << child_div1
         tree.root_node.children << parent_div
 
-        expect(searcher.search_children(parent_div, :id, 'nav'))
-          .to eq [child_div]
+        expect(searcher.search_ancestors(child_div1, :id, 'nav'))
+          .to eq [parent_div]
       end
     end
   end
