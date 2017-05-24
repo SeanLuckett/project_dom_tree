@@ -1,6 +1,6 @@
-require_relative '../lib/tag_element'
-require_relative '../lib/text_element'
-require_relative '../lib/dom_tree'
+require_relative './tag_element'
+require_relative './text_element'
+require_relative './dom_tree'
 
 class TreeSearcher
   def initialize(tree)
